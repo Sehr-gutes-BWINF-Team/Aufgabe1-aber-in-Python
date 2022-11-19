@@ -1,3 +1,4 @@
+# coding=utf-8
 import re
 
 
@@ -5,8 +6,8 @@ def create_regex(string):
     out = ""
 
     word_prefix = "("
-    word_suffix = ")\\W+"
-    wildcard = "([^\\s]+)\\W+"
+    word_suffix = ")\\W"
+    wildcard = "([^\\s]+)\\W"
 
     for element in string.split(' '):
         if element == "_":
@@ -29,17 +30,15 @@ def clean(string):
 
 
 if __name__ == '__main__':
-    with open("resources/Alice_im_Wunderland.txt") as file:
+    nr = input("Bitte gib an, welche Beispielnummer bearbeitet werden soll: ")
+    with open("resources/Alice_im_Wunderland.txt", encoding="utf-8") as file:
         data = file.read()
         data = clean(data)
         # print(data)
-
-        with open("resources/stoerung1.txt") as riddle:
+        with open(f'resources/stoerung{nr}.txt', encoding="utf-8") as riddle:
             riddle_data = riddle.read()
             regex = create_regex(riddle_data)
             print("Generierter Regexausdruck: " + regex)
-            matches = re.findall(regex, data, flags=re.IGNORECASE)
+            matches = set(re.findall(regex, data, flags=re.IGNORECASE))
             for match in matches:
                 print(f'Passende Textstelle: {" ".join(match)}')
-
-
